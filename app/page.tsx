@@ -2,6 +2,7 @@
 
 import WebApp from "@twa-dev/sdk";
 import { useEffect, useState } from "react";
+import './styles.css'; // CSS dosyasını import edin
 
 interface UserData {
   id: number;
@@ -23,11 +24,11 @@ export default function Home() {
   }, []);  // Yalnızca ilk renderda çalışacak şekilde []
 
   return (
-    <main className="p-4">
+    <main className="p-4 custom-bg min-h-screen">
       {userData ? (
         <>
-          <h1 className="text-2xl font-bold mb-4">User Data</h1>
-          <ul>
+          <h1 className="text-2xl font-bold mb-4 text-white">User Data</h1>
+          <ul className="text-white">
             <li>ID: {userData.id}</li>
             <li>First Name: {userData.first_name}</li>
             <li>Last Name: {userData.last_name}</li>
