@@ -3,7 +3,7 @@
 import WebApp from "@twa-dev/sdk";
 import { useEffect, useState } from "react";
 
-interface UserData{
+interface UserData {
   id: number;
   first_name: string;
   last_name?: string;
@@ -13,37 +13,32 @@ interface UserData{
 }
 
 export default function Home() {
-  const [UserData, setUserData] = useState<UserData | null>(null)
+  const [userData, setUserData] = useState<UserData | null>(null);
 
-  useEffect(() =>{
-    if (WebApp.initDataUnsafe.user){
-      setUserData(WebApp.initDataUnsafe.user as UserData)
+  useEffect(() => {
+    // Sadece client-side'da WebApp'e erişim sağla
+    if (typeof window !== 'undefined' && WebApp.initDataUnsafe.user) {
+      setUserData(WebApp.initDataUnsafe.user as UserData);
     }
-  })
+  }, []);  // Yalnızca ilk renderda çalışacak şekilde []
+
   return (
     <main className="p-4">
-      {
-        UserData ?
-        (
-          <>
+      {userData ? (
+        <>
           <h1 className="text-2xl font-bold mb-4">User Data</h1>
           <ul>
-            <li> ID: {UserData.id}</li>
-            <li> First Name: {UserData.first_name}</li>
-            <li> Last Name: {UserData.last_name}</li>
-            <li> Username: {UserData.username}</li>
-            <li> Language Code: {UserData.language_code}</li>
-            <li> Is Premium: {UserData.is_premium}</li>
-
+            <li>ID: {userData.id}</li>
+            <li>First Name: {userData.first_name}</li>
+            <li>Last Name: {userData.last_name}</li>
+            <li>Username: {userData.username}</li>
+            <li>Language Code: {userData.language_code}</li>
+            <li>Is Premium: {userData.is_premium}</li>
           </ul>
-          </>
-        ) :
-        (
-          <div>Loading...</div>
-
-        )
-      }
-
+        </>
+      ) : (
+        <div>Loading...</div>
+      )}
     </main>
   );
 }
